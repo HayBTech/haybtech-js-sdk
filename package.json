@@ -1,0 +1,27 @@
+{
+  "name": "@haybtech/sdk",
+  "version": "1.0.0",
+  "description": "Official Node.js SDK for HayBTech Payment Gateway",
+  "main": "index.js",
+  "files": [
+    "lib",
+    "index.js"
+  ],
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "payment",
+    "africa",
+    "fintech",
+    "haybtech",
+    "mobile-money",
+    "orange-money",
+    "wave"
+  ],
+  "author": "HayBTech Team",
+  "license": "MIT"
+}
