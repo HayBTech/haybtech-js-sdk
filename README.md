@@ -41,8 +41,8 @@ async function initiatePayment() {
       merchant_ref: 'ORDER-12345',
       amount: 5000,
       currency: 'XOF',
-      return_url: 'https://mysite.com/success',
-      cancel_url: 'https://mysite.com/cancel',
+      success_url: 'https://mysite.com/success',
+      failed_url: 'https://mysite.com/failed',
       callback_url: 'https://mysite.com/webhook'
     });
 
@@ -97,11 +97,14 @@ app.post('/webhook', express.raw({ type: 'application/json' }), (req, res) => {
 
 | Event                     | Description              |
 |:--------------------------|:-------------------------|
+| `payment.initiated`       | Transaction created      |
 | `payment.success`         | Payment confirmed        |
 | `payment.failed`          | Payment failed           |
 | `payment.cancelled`       | Cancelled by customer    |
 | `payment.expired`         | Payment timed out        |
-| `payment.expired`         | Payment timed out        |
+| `payout.success`          | Payout completed         |
+| `payout.failed`           | Payout failed            |
+| `refund.success`          | Refund processed         |
 
 ---
 
@@ -146,10 +149,12 @@ This SDK is built for **Maximum Security**:
 
 ## API Resources
 
-| Resource              | Description                                |
-|:----------------------|:-------------------------------------------|
-| `haybtech.payments`   | Create, retrieve, list, and verify transactions |
-| `haybtech.webhooks`   | Manage notification endpoints programmatically  |
+| Resource              | Description                                              |
+|:----------------------|:---------------------------------------------------------|
+| `haybtech.payments`   | Create, retrieve, list, and verify transactions          |
+| `haybtech.refunds`    | Initiate full or partial refunds                         |
+| `haybtech.payouts`    | Send funds to a mobile money wallet                      |
+| `haybtech.webhooks`   | Manage notification endpoints programmatically           |
 
 ---
 
