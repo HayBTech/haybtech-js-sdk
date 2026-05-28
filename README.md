@@ -8,6 +8,34 @@ Official Node.js SDK for the HayBTech Payment Gateway API -- mobile payments acr
 
 ---
 
+## Intégration par IA (Prompt pour Marchands)
+
+Si vous utilisez un assistant IA (comme Cursor, GitHub Copilot, ChatGPT, Claude, etc.), vous pouvez copier-coller le prompt suivant pour intégrer ce SDK de A à Z dans votre projet :
+
+```text
+Agis en tant qu'expert en développement backend Node.js. Je souhaite intégrer la solution de paiement HayBTech (Afrique de l'Ouest) sur mon site marchand de A à Z avec le SDK Node.js `@haybtech/sdk`.
+
+Voici ma stack technique actuelle :
+- Framework/Runtime : [ex: Express.js, Next.js, NestJS]
+- Base de données & ORM : [ex: PostgreSQL avec Prisma, MongoDB avec Mongoose]
+- Table/Schéma de commande : [décrivez brièvement votre structure de table Order]
+
+Tâches à accomplir dans le code généré :
+1. **Initialisation & Config** : Charger la clé d'API secrète depuis les variables d'environnement (`HAYBTECH_SECRET_KEY`) et initialiser le SDK.
+2. **Création du Paiement (Route Checkout)** : Créer un endpoint `/api/checkout` qui prend un ID de commande, vérifie le montant dans la base de données, appelle `haybtech.payments.create(...)` avec les paramètres requis (merchant_ref, amount, currency='XOF', success_url, failed_url, callback_url/webhook), enregistre la transaction et renvoie l'URL de paiement `payment_url` pour rediriger l'utilisateur.
+3. **Webhook de Notification (Route Webhook)** : Créer un endpoint `/api/webhook/haybtech` sécurisé. Il doit :
+   - Récupérer le payload brut (raw body) et le header de signature `x-haybtech-signature`.
+   - Utiliser `Webhook.constructEvent(payload, signature, secret)` avec le secret de webhook (`HAYBTECH_WEBHOOK_SECRET`) pour valider l'authenticité de la requête et prévenir les attaques par rejeu.
+   - Traiter `payment.success` pour passer le statut de la commande en "payée" de manière idempotente (vérifier si déjà payée) et déclencher la livraison/le service.
+   - Traiter `payment.failed` pour passer le statut de la commande en "échouée".
+   - Renvoyer un statut HTTP 200 en cas de succès.
+4. **Sécurité & Gestion des Erreurs** : Intégrer des blocs try/catch avec gestion des exceptions spécifiques (`ApiException`), du logging propre, et sans divulguer d'informations sensibles dans les réponses HTTP d'erreur.
+
+Génère un code propre, structuré, commenté et totalement prêt à l'emploi.
+```
+
+---
+
 ## Installation
 
 ```bash
@@ -156,7 +184,5 @@ This SDK is built for **Maximum Security**:
 | `haybtech.payouts`    | Send funds to a mobile money wallet                      |
 | `haybtech.webhooks`   | Manage notification endpoints programmatically           |
 
----
-
 MIT License
-# haybtech-js-sdk
+
